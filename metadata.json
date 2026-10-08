@@ -1,0 +1,6 @@
+{
+  "name": "Virtual Camera",
+  "description": "AI-powered Virtual Camera and Live Assistant for Android 15 with lip-sync, floating control overlay, video playlist, and voice effects.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Live Media Assistant</string>
+    <string name="work_profile_admin_description">Creates one Android-managed profile for the selected app.</string>
+</resources>
