@@ -1,15 +1,13 @@
 package com.example.viewmodel
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
 
 class VirtualCamViewModel : ViewModel() {
 
-    // UI State variables
+    // UI States
     private val _isVirtualCamActive = MutableStateFlow(false)
     val isVirtualCamActive: StateFlow<Boolean> = _isVirtualCamActive.asStateFlow()
 
@@ -28,16 +26,31 @@ class VirtualCamViewModel : ViewModel() {
     private val _isAudioMonitorEnabled = MutableStateFlow(false)
     val isAudioMonitorEnabled: StateFlow<Boolean> = _isAudioMonitorEnabled.asStateFlow()
 
-    // Mock Engines for LipSync and Audio
-    val lipSyncEngine = Object()
-    val audioEngine = Object()
+    // Engine references used across UI/Service
+    val lipSyncEngine = Any()
+    val audioEngine = Any()
+
+    companion object {
+        const val ACTION_START = "com.example.action.START"
+        const val ACTION_STOP = "com.example.action.STOP"
+        const val EXTRA_ENABLE_MICROPHONE_FEATURES = "extra_mic_features"
+    }
+
+    // Toggle and action methods matching all references
+    fun toggleVirtualCam() {
+        _isVirtualCamActive.value = !_isVirtualCamActive.value
+    }
 
     fun toggleVirtualCam(enabled: Boolean) {
         _isVirtualCamActive.value = enabled
     }
 
-    fun toggleMirror(enabled: Boolean) {
-        _isMirrorActive.value = enabled
+    fun toggleMirror() {
+        _isMirrorActive.value = !_isMirrorActive.value
+    }
+
+    fun togglePlayPause() {
+        _isPlaying.value = !_isPlaying.value
     }
 
     fun setPlaying(playing: Boolean) {
@@ -62,8 +75,13 @@ class VirtualCamViewModel : ViewModel() {
         _isPlaying.value = false
     }
 
+    // Overloaded methods to support both naming styles
     fun setLipSyncEnabled(enabled: Boolean) {
         _isLipSyncEnabled.value = enabled
+    }
+
+    fun setAudioEngine(enabled: Boolean) {
+        _isAudioMonitorEnabled.value = enabled
     }
 
     fun setMonitorEnabled(enabled: Boolean) {
