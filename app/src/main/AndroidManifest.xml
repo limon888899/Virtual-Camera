@@ -34,6 +34,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
+
+        <!-- VirtualXposed Module Metadata Configuration (Added Here) -->
+        <meta-data
+            android:name="xposedmodule"
+            android:value="true" />
+        <meta-data
+            android:name="xposeddescription"
+            android:value="Live Media Assistant Virtual Camera Hook for IMO and WhatsApp" />
+        <meta-data
+            android:name="xposedminversion"
+            android:value="54" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
