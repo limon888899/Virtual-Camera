@@ -19,6 +19,7 @@ import com.example.MainActivity
 import com.example.data.local.entity.VideoEntity
 import com.example.data.model.VoicePreset
 import com.example.data.repository.VirtualCamRepository
+import com.example.virtualcamera.DeepfakeEngine // ডিপফেক ইঞ্জিনের জন্য ইম্পোর্ট
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -211,6 +212,21 @@ class VirtualCameraService : Service() {
         return START_STICKY
     }
 
+    /**
+     * ভার্চুয়াল ক্যামেরা হুক ও ডিপফেক ফ্রেম ইনজেকশন মেথড
+     */
+    fun interceptAndReplaceCameraFrame(rawCameraData: ByteArray): ByteArray {
+        return if (_isVirtualCamActive.value && isServiceRunning) {
+            try {
+                DeepfakeEngine.processCameraFrame(rawCameraData)
+            } catch (e: Exception) {
+                rawCameraData
+            }
+        } else {
+            rawCameraData
+        }
+    }
+
     @SuppressLint("WakelockTimeout")
     private fun acquireWakeLock() {
         try {
@@ -239,6 +255,7 @@ class VirtualCameraService : Service() {
     }
 
     private fun startForegroundServiceSafely(enableMicrophoneFeatures: Boolean) {
+        isServiceRunning = true
         createNotificationChannel()
         val notification = buildForegroundNotification()
 
@@ -259,6 +276,7 @@ class VirtualCameraService : Service() {
     }
 
     private fun stopForegroundSafely() {
+        isServiceRunning = false
         audioEngine.stopCapture()
         lipSyncEngine.stop()
         floatingOverlayManager.hide()
