@@ -453,6 +453,35 @@ fun VirtualCamStudioScreen(
                         colors = SwitchDefaults.colors(checkedThumbColor = StudioColors.AccentSoft)
                     )
                 }
+
+                // Deepfake Camera Feed Injection Toggle (Added here)
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            imageVector = Icons.Default.Videocam,
+                            contentDescription = "Deepfake Hook",
+                            tint = StudioColors.Accent,
+                            modifier = Modifier.size(16.dp)
+                        )
+                        Spacer(modifier = Modifier.width(6.dp))
+                        Text(
+                            text = "Deepfake Camera Injection",
+                            fontSize = 12.sp,
+                            color = StudioColors.Text
+                        )
+                    }
+                    Switch(
+                        checked = settings.isVirtualCamActive,
+                        onCheckedChange = { 
+                            onToggleCam() 
+                        },
+                        colors = SwitchDefaults.colors(checkedThumbColor = StudioColors.Accent)
+                    )
+                }
             }
         }
     }
